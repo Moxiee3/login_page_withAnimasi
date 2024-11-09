@@ -2,10 +2,20 @@ import 'package:animed_login/colors/color.dart';
 import 'package:animed_login/screen/register.dart';
 import 'package:animed_login/screen/sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  bool first = true;
+  double fontsize = 20;
+  Color color = textColor1;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -118,19 +128,29 @@ class SplashScreen extends StatelessWidget {
                               const Spacer(),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SignIn(),
-                                    ),
-                                  );
+                                  setState(() {
+                                    fontsize = first ? 35 : 20;
+                                    color = first ? Colors.red : textColor1;
+                                    first = !first;
+                                  });
+
+                                  Future.delayed(
+                                      const Duration(milliseconds: 1000), () {
+                                    Get.to(
+                                      () => SignIn(),
+                                      transition: Transition.circularReveal,
+                                      duration: const Duration(seconds: 2),
+                                    );
+                                  });
                                 },
-                                child: Text(
-                                  "Sign In",
+                                child: AnimatedDefaultTextStyle(
+                                  duration: Duration(seconds: 1),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: textColor1,
+                                      fontWeight: FontWeight.bold,
+                                      color: color,
+                                      fontSize: fontsize),
+                                  child: Text(
+                                    "Sign In",
                                   ),
                                 ),
                               ),

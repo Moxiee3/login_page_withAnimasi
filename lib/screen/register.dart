@@ -1,9 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:animed_login/colors/color.dart';
+import 'package:flutter/material.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({super.key});
 
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  bool isFlat = true;
+  double height1 = 35;
+  double height2 = 35;
+  double height3 = 35;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -109,9 +119,27 @@ class Register extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      socialIcon("image/google.png"),
-                      socialIcon("image/apple.png"),
-                      socialIcon("image/facebook.png"),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height1 = height1 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/google.png", height1)),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height2 = height2 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/apple.png", height2)),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height3 = height3 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/facebook.png", height3)),
                     ],
                   ),
                   SizedBox(height: size.height * 0.04),
@@ -142,53 +170,65 @@ class Register extends StatelessWidget {
     );
   }
 
-  Container socialIcon(image) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32,
-        vertical: 15,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
+  FadeInUp socialIcon(image, iconHeight) {
+    return FadeInUp(
+      from: 400,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 32,
+          vertical: 15,
         ),
-      ),
-      child: Image.asset(
-        image,
-        height: 35,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white,
+            width: 2,
+          ),
+        ),
+        child: Image.asset(
+          image,
+          height: iconHeight,
+        ),
       ),
     );
   }
 
-  Container myTextField(String hint, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 10,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 22,
-            ),
-            fillColor: Colors.white,
-            filled: true,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            hintText: hint,
-            hintStyle: const TextStyle(
-              color: Colors.black45,
-              fontSize: 19,
-            ),
-            suffixIcon: Icon(
-              Icons.visibility_off_outlined,
-              color: color,
-            )),
+  FadeInUp myTextField(String hint, Color color) {
+    return FadeInUp(
+      from: 500,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 10,
+        ),
+        child: AnimatedPhysicalModel(
+          shape: BoxShape.rectangle,
+          elevation: isFlat ? 0 : 5,
+          color: backgroundColor2,
+          shadowColor: Colors.black,
+          duration: const Duration(microseconds: 300),
+          child: TextField(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 22,
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                ),
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  color: Colors.black45,
+                  fontSize: 19,
+                ),
+                suffixIcon: Icon(
+                  Icons.visibility_off_outlined,
+                  color: color,
+                )),
+          ),
+        ),
       ),
     );
   }

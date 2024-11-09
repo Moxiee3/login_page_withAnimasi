@@ -1,9 +1,19 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:animed_login/colors/color.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  bool isFlat = true;
+  double height1 = 35;
+  double height2 = 35;
+  double height3 = 35;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,35 +33,44 @@ class SignIn extends StatelessWidget {
             child: ListView(
           children: [
             SizedBox(height: size.height * 0.03),
-            Text(
-              "We missed you!",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-                color: textColor1,
+            FadeInUp(
+              from: 200,
+              child: Text(
+                "We missed you!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  color: textColor1,
+                ),
               ),
             ),
             const SizedBox(height: 15),
-            Text(
-              "Let's get your\nfinances checked",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 27, color: textColor2, height: 1.2),
+            FadeInUp(
+              from: 200,
+              child: Text(
+                "Let's get your\nfinances checked",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 27, color: textColor2, height: 1.2),
+              ),
             ),
             SizedBox(height: size.height * 0.04),
             // for username and password
             myTextField("Enter username", Colors.white),
             myTextField("Password", Colors.black26),
             const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "Recovery Password               ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: textColor2,
+            FadeInUp(
+              from: 200,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Recovery Password               ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: textColor2,
+                  ),
                 ),
               ),
             ),
@@ -61,55 +80,86 @@ class SignIn extends StatelessWidget {
               child: Column(
                 children: [
                   // for sign in button
-                  Container(
-                    width: size.width,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: buttonColor,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 22,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFlat = !isFlat;
+                      });
+                    },
+                    child: FadeInUp(
+                      from: 200,
+                      child: Container(
+                        width: size.width,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: BoxDecoration(
+                          color: buttonColor,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 22,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
                   SizedBox(height: size.height * 0.06),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 2,
-                        width: size.width * 0.2,
-                        color: Colors.black12,
-                      ),
-                      Text(
-                        "  Or continue with   ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: textColor2,
-                          fontSize: 16,
+                  FadeInUp(
+                    from: 300,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 2,
+                          width: size.width * 0.2,
+                          color: Colors.black12,
                         ),
-                      ),
-                      Container(
-                        height: 2,
-                        width: size.width * 0.2,
-                        color: Colors.black12,
-                      ),
-                    ],
+                        Text(
+                          "  Or continue with   ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: textColor2,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Container(
+                          height: 2,
+                          width: size.width * 0.2,
+                          color: Colors.black12,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: size.height * 0.06),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      socialIcon("image/google.png"),
-                      socialIcon("image/apple.png"),
-                      socialIcon("image/facebook.png"),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height1 = height1 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/google.png", height1)),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height2 = height2 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/apple.png", height2)),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              height3 = height3 == 60 ? 35 : 60;
+                            });
+                          },
+                          child: socialIcon("image/facebook.png", height3)),
                     ],
                   ),
                   SizedBox(height: size.height * 0.07),
@@ -140,53 +190,65 @@ class SignIn extends StatelessWidget {
     );
   }
 
-  Container socialIcon(image) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32,
-        vertical: 15,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
+  FadeInUp socialIcon(image, iconHeight) {
+    return FadeInUp(
+      from: 400,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 32,
+          vertical: 15,
         ),
-      ),
-      child: Image.asset(
-        image,
-        height: 35,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white,
+            width: 2,
+          ),
+        ),
+        child: Image.asset(
+          image,
+          height: iconHeight,
+        ),
       ),
     );
   }
 
-  Container myTextField(String hint, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 25,
-        vertical: 10,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 22,
-            ),
-            fillColor: Colors.white,
-            filled: true,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            hintText: hint,
-            hintStyle: const TextStyle(
-              color: Colors.black45,
-              fontSize: 19,
-            ),
-            suffixIcon: Icon(
-              Icons.visibility_off_outlined,
-              color: color,
-            )),
+  FadeInUp myTextField(String hint, Color color) {
+    return FadeInUp(
+      from: 500,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 10,
+        ),
+        child: AnimatedPhysicalModel(
+          shape: BoxShape.rectangle,
+          elevation: isFlat ? 0 : 5,
+          color: backgroundColor2,
+          shadowColor: Colors.black,
+          duration: const Duration(microseconds: 300),
+          child: TextField(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 22,
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                ),
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  color: Colors.black45,
+                  fontSize: 19,
+                ),
+                suffixIcon: Icon(
+                  Icons.visibility_off_outlined,
+                  color: color,
+                )),
+          ),
+        ),
       ),
     );
   }
